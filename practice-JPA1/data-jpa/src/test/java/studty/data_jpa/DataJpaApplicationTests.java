@@ -1,10 +1,10 @@
-package jpa_basic.ex1_hello_jpa;
+package studty.data_jpa;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Ex1HelloJpaApplicationTests {
+class DataJpaApplicationTests {
 
 	@Test
 	void contextLoads() {
