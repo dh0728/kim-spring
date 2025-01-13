@@ -3,12 +3,15 @@ package me.song.data_jpa.controller;
 import me.song.data_jpa.dto.AddArticleRequest;
 import lombok.RequiredArgsConstructor;
 import me.song.data_jpa.domain.Article;
+import me.song.data_jpa.dto.ArticleResponse;
+import me.song.data_jpa.dto.UpdateArticleRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import me.song.data_jpa.service.BlogService;
+
+import javax.swing.text.html.parser.Entity;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController // HTTP Response Body에 객체 데이터를 Json 형식으로 반환하는 컨트롤러
@@ -26,4 +29,38 @@ public class BlogApiController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedArticle);
     }
+
+    @GetMapping("/api/articles")
+    public ResponseEntity<List<ArticleResponse>> findAllArticles() {
+        List<ArticleResponse> articles = blogService.findAll()
+                .stream()
+                .map(ArticleResponse::new)
+                .toList();
+
+        return ResponseEntity.ok().body(articles);
+    }
+
+    @GetMapping("/api/articles/{id}") // URL 경로에서 값 추축
+    public ResponseEntity<ArticleResponse> findArtile(@PathVariable Long id) {
+        Article article = blogService.findById(id);
+
+        return ResponseEntity.ok().body(new ArticleResponse(article));
+    }
+
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable Long id) {
+        blogService.delete(id);
+
+        // 204 No Content 반환
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable long id,
+                                                 @RequestBody UpdateArticleRequest request) {
+        Article updateArticle = blogService.update(id, request);
+
+        return ResponseEntity.ok().body(updateArticle);
+    }
+
 }
