@@ -61,7 +61,7 @@ public class TokenProvider implements InitializingBean {
                 .compact();
     }
 
-    //토큰을 파라미터로 받고 토큰안에 권한 정보를 이요앻서 Authentication 객체를 리턴하는 메서드
+    //토큰을 파라미터로 받고 토큰안에 권한 정보를 이용해서 Authentication 객체를 리턴하는 메서드
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts
                 .parserBuilder()

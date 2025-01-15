@@ -31,6 +31,8 @@ public class User {
     @Column(name = "activated", length = 50)
     private boolean activated;
 
+//    private Author author;
+
     // @ManyToMany, @JoinTable은 User객체와 권한 객체를 다대다 관계를
     // 중계 테이블로 일대다, 다대일로 조인 테이블로 정의 한것
     @ManyToMany
