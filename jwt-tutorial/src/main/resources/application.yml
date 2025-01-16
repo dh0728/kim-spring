@@ -5,22 +5,26 @@ spring:
   h2:
     console:
       enabled: true
-
   datasource:
     url: jdbc:h2:tcp://localhost/~/datajpa
     driver-class-name: org.h2.Driver
     username: sa
     password:
-
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create # 테이블 생성 후 삭제
     defer-datasource-initialization: true # JPA 초기화 후 데이터 삽입
-
+  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id:
+#            client-secret:
 jwt:
   header: Authorization
-  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  secret:
   token-validity-in-seconds: 86400
 
 logging:
