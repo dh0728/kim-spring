@@ -16,18 +16,15 @@ public class Member {
     private String username;
     private int age;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) //연관관계 테이블은 모두 LAZY로 설정해야함
     @JoinColumn(name = "team_id")
     private Team team;
 
 
-// @NoArgsConstructor(access = AccessLevel.PROTECTED) 이거 쓰면 protected 안해도 됨
-//    protected Member() {
-//
-//    }
     public Member(String username){
         this.username = username;
     }
+
     public Member(String username, int age, Team team){
         this.username = username;
         this.age = age;

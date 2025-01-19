@@ -1,16 +1,20 @@
 spring:
+  sql:
+    init:
+      mode: always
+  h2:
+    console:
+      enabled: true
   datasource:
     url: jdbc:h2:tcp://localhost/~/datajpa
+    driver-class-name: org.h2.Driver
     username: sa
     password:
-    driver-class-name: org.h2.Driver
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-#      show_sql: true
-      format_sql: true
-logging.level:
-  org.hibernate.SQL: debug
-#  org.hibernate.type: trace
+      ddl-auto: create # 테이블 생성 후 삭제
+    defer-datasource-initialization: true # JPA 초기화 후 데이터 삽입
+logging:
+  level:
+    me.silvernine: DEBUG
