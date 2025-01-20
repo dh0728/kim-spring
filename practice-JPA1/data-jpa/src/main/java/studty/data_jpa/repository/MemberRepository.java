@@ -4,7 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import studty.data_jpa.dto.MemberDto;
@@ -53,5 +55,30 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 사용시 페이지 유지하면서 엔티티를 DTO로 변환하는 법
 //    Page<Member> page =memberRepository.findByUsername('AAA', pageRequest);
 //    Page<MemberDTO> dtopage = page.map(m -> new MemberDto());
+
+    // 스프링 데이터 JPA를 사용한 벌크성 수정 쿼리
+    // 벌크성 수정, 삭제 쿼리는 @Modifing 사용 (영속성 컨텍스트)를 초기화 해야 함
+    @Modifying
+    @Query("update Member m set m.age = m.age +1 where m.age >= :age")
+    int bulkAgePlus(@Param("age") int age);
+
+    // @EntityGraph
+
+    // fetch join의 일반적인 방법
+    @Query("select m from Member m left join fetch m.team")
+    List<Member> findAllFetchJoin();
+
+    @Override
+    @EntityGraph(attributePaths = {"team"})
+    List<Member> findAll();
+
+    // Query를 짜다가 fetch join만 살짝 추가하고 싶다면
+    @EntityGraph(attributePaths = {"team"})
+    @Query("select m from Member m")
+    List<Member> findMemberEntityGraph();
+
+    @EntityGraph(attributePaths = {"team"})
+    List<Member> findEntityGraphByUsername(String username);
+
 
 }
